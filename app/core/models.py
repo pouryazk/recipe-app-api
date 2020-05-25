@@ -2,6 +2,7 @@ from django.db import models
 """ extended line with backslash """
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                         PermissionsMixin
+from django.conf import settings  # recommanded way to retrieve django settings
 
 
 class UserManager(BaseUserManager):
@@ -38,3 +39,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()  # remember to include () at the end
     USERNAME_FIELD = 'email'  # set this as a string
+
+
+class Tag(models.Model):
+    """ Tag to be used for a recipe """
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
