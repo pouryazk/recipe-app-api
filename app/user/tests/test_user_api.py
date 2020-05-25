@@ -150,3 +150,9 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_create_tag_successful(self):
+        """ test creating a new tag """
+        payload = {
+            'name':'Test Tag'
+        }
