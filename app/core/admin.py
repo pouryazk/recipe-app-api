@@ -36,3 +36,4 @@ class UserAdmin(BaseUserAdmin):
 # Here we modified the default adin class
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Tag)
+admin.site.register(models.Ingredient)
