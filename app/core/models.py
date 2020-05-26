@@ -63,3 +63,23 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Recipe(models.Model):
+    """ recipe objects """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    time_minutes = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    # allowing Null value is not recommanded
+    ingredients = models.ManyToManyField('Ingredient')
+    # if you remove the string, you have to make sure ingredient is above recipe
+    tags = models.ManyToManyField('Tag')
+    # read the docs of ManyToManyField
+
+    def __str__(self):
+        return self.title
