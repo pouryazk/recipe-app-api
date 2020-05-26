@@ -40,3 +40,8 @@ class RecipeSerializer(serializers.ModelSerializer):
                  )
         read_only_fields = ('id',)
         # prevent the user from updating the id
+
+class RecipeDetailSerializer(RecipeSerializer):
+    """ Serialize a recipe detail """
+    ingredients = IngredientSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
