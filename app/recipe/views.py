@@ -17,7 +17,21 @@ class BaseRecipeAttrViewSet(viewsets.GenericViewSet,
 
       def get_queryset(self):  # this will be displayed on the api
           """ return objects for the current authenticated user only """
-          return self.queryset.filter(user=self.request.user).order_by('-name')
+          # supported_values for assigned only are 0 and 1 only
+          # if no assigned value is retrieved, None is returned by get function
+          # to resolve this, we will set default get value to 0, (below here)
+          assigned_only = bool(
+            int(self.request.query_params.get('assigned_only', 0))
+          )
+          queryset = self.queryset
+          if assigned_only:
+              queryset = queryset.filter(recipe__isnull=False)
+
+          return queryset.filter(
+                user=self.request.user
+          ).order_by('-name').distinct()
+          # we set distinct to return unique tags
+          # http://127.0.0.1:8000/api/recipe/tags/?assigned_only=1
 
       def perform_create(self, serializer):  # perform any modification to create
           """ create a new attr """
